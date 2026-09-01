@@ -1,0 +1,58 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Agent",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-agent-model.sh" }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-bulk-staging.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-force-push.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-blocked-actions.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-secret-bypass.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-ai-traces.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-outbound-text.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-bash-danger.sh" }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-hook-files.sh" },
+          { "type": "command", "command": "$HOME/.claude/hooks/guard-protected-files.sh" }
+        ]
+      },
+      {
+        "matcher": "mcp__<메시징서버>__send_message|mcp__<메시징서버>__schedule_message",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/gate-outbound-message.sh" }
+        ]
+      },
+      {
+        "matcher": "mcp__notion.*|mcp__.*Notion.*",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/notion-approval/pre-write-gate.sh" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__notion.*|mcp__.*Notion.*",
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/notion-approval/record-approval.sh" }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "$HOME/.claude/hooks/notion-approval/clear-approval.sh" }
+        ]
+      }
+    ]
+  }
+}

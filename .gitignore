@@ -1,0 +1,5 @@
+state/
+*.local
+*.bak
+*.bak-*
+.DS_Store
